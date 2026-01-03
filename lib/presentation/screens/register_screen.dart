@@ -142,10 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               text: "Crear cuenta",
                               onPressed: () {
                                 print("Bien registrado");
-                                print("Envía email de recuperación");
-                                print("Ir a map");
-
-                                print("Mal registrado");
+                                print("Envía email de bienvenida");
                                 print("Ir a login");
                                 Navigator.of(context).push(
                                   MaterialPageRoute(

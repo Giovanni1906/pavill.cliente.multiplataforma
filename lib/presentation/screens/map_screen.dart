@@ -15,6 +15,7 @@ import '../widgets/primary_button.dart';
 import '../widgets/section_title.dart';
 import 'login_screen.dart';
 import 'profile_screen.dart';
+import 'confirm_screen.dart';
 
 class MapScreen extends StatefulWidget {
   final IconData actionIcon;
@@ -217,8 +218,16 @@ class _MapScreenState extends State<MapScreen> {
                 const SizedBox(height: 8),
                 PrimaryButton(
                   text: "Continuar",
-                  onPressed: () {},
+                  onPressed: () {
+                    print("Ir a confirm");
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const ConfirmScreen(),
+                      ),
+                    );
+                  },
                   variant: ButtonVariant.secondary,
+
                 ),
               ],
             ),
