@@ -5,6 +5,7 @@ enum ButtonVariant {
   primary,
   secondary,
   alternative,
+  success,
 }
 
 class PrimaryButton extends StatelessWidget {
@@ -46,6 +47,12 @@ class PrimaryButton extends StatelessWidget {
       case ButtonVariant.alternative:
         backgroundColor = Colors.transparent;
         borderColor = colors.primary; // 👈 borde morado
+        textColor = Colors.white;
+        break;
+
+      case ButtonVariant.success:
+        backgroundColor = colors.green;
+        borderColor = Colors.transparent;
         textColor = Colors.white;
         break;
     }

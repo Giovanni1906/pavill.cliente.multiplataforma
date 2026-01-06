@@ -18,6 +18,7 @@ class AppTheme {
           glow: AppColors.glowBackground,
           shadow: AppColors.shadow,
           slowPrimary: AppColors.slowPrimary,
+          green: AppColors.green,
         ),
       ],
       colorScheme: const ColorScheme.light(
@@ -49,6 +50,7 @@ class AppTheme {
           glow: AppColors.darkGlowBackground,
           shadow: AppColors.darkShadow,
           slowPrimary: AppColors.darkSlowPrimary,
+          green: AppColors.green,
         ),
       ],
       colorScheme: const ColorScheme.dark(

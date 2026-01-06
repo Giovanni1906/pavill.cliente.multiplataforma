@@ -6,6 +6,7 @@ import '../widgets/primary_button.dart';
 import '../widgets/top_navbar.dart'; // nuevo navbar
 
 import 'map_screen.dart';
+import 'searching_screen.dart';
 
 class ConfirmScreen extends StatelessWidget {
   const ConfirmScreen({super.key});
@@ -111,6 +112,11 @@ class ConfirmScreen extends StatelessWidget {
                                 print("Pide un pavill");
 
                                 print("Ir a searing screen");
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => const SearchingScreen(),
+                                  ),
+                                );
 
                               },
                             ),

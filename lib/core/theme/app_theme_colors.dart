@@ -10,6 +10,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
   final Color glow;
   final Color shadow;
   final Color slowPrimary;
+  final Color green;
 
   const AppThemeColors({
     required this.primary,
@@ -20,6 +21,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     required this.glow,
     required this.shadow,
     required this.slowPrimary,
+    required this.green,
   });
 
   @override
@@ -32,6 +34,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     Color? glow,
     Color? shadow, 
     Color? slowPrimary,
+    Color? green,
   }) {
     return AppThemeColors(
       primary: primary ?? this.primary,
@@ -42,6 +45,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
       glow: glow ?? this.glow,
       shadow: shadow ?? this.shadow,
       slowPrimary: slowPrimary ?? this.slowPrimary,
+      green: green ?? this.green,
     );
   }
 
@@ -57,6 +61,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
       glow: Color.lerp(glow, other.glow, t)!,
       shadow: Color.lerp(shadow, other.shadow, t)!,
       slowPrimary: Color.lerp(slowPrimary, other.slowPrimary, t)!, 
+      green: Color.lerp(green, other.green, t)!,
     );
   }
 }
