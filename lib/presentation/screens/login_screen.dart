@@ -3,6 +3,7 @@ import '../widgets/general_input_field.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/link_text.dart';
 import '../widgets/top_navbar.dart'; // ƒo. importa tu nuevo navbar
+import '../widgets/loading_dialog.dart';
 
 import 'verify_phone_screen.dart';
 import 'recover_password_screen.dart';
@@ -73,13 +74,20 @@ class LoginScreen extends StatelessWidget {
                             // Botón principal
                             PrimaryButton(
                               text: "Iniciar sesión",
-                              onPressed: () {
-                                print("Ir a map");
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => const MapScreen(),
-                                  ),
-                                );
+                              onPressed: () async {
+                                LoadingDialog.show(context, message: 'Iniciando sesión...');
+                                
+                                // Simular operación de login
+                                await Future.delayed(const Duration(seconds: 2));
+                                
+                                if (context.mounted) {
+                                  LoadingDialog.hide(context);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => const MapScreen(),
+                                    ),
+                                  );
+                                }
                               },
                             ),
 
