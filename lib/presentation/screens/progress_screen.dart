@@ -9,7 +9,7 @@ import '../../core/theme/app_theme_colors.dart';
 import '../widgets/app_bottom_sheet.dart';
 import '../widgets/circular_icon_button.dart';
 import '../widgets/contact_action_button.dart';
-import '../widgets/map_view.dart';
+import '../widgets/loading_dialog.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/rating_stars.dart';
 import '../widgets/section_title.dart';
@@ -26,13 +26,28 @@ class ProgressScreen extends StatefulWidget {
 class _ProgressScreenState extends State<ProgressScreen> {
   final Completer<GoogleMapController> _mapController = Completer();
   bool _locationReady = false;
+  bool _mapLoading = true;
+  bool _loadingDialogVisible = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _requestLocation();
+      _showLoadingDialog();
     });
+  }
+
+  void _showLoadingDialog() {
+    if (_loadingDialogVisible || !mounted) return;
+    _loadingDialogVisible = true;
+    LoadingDialog.show(context, message: 'Cargando mapa...');
+  }
+
+  void _hideLoadingDialog() {
+    if (!_loadingDialogVisible || !mounted) return;
+    _loadingDialogVisible = false;
+    LoadingDialog.hide(context);
   }
 
   Future<void> _requestLocation() async {
@@ -80,21 +95,43 @@ class _ProgressScreenState extends State<ProgressScreen> {
   }
 
   @override
+  void dispose() {
+    if (_loadingDialogVisible) {
+      LoadingDialog.hide(context);
+      _loadingDialogVisible = false;
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppThemeColors>()!;
 
     return Scaffold(
       body: Stack(
         children: [
-          MapView(
+          GoogleMap(
             initialCameraPosition: const CameraPosition(
               target: LatLng(-12.0464, -77.0428),
               zoom: 14,
             ),
+            myLocationButtonEnabled: false,
+            zoomControlsEnabled: false,
             myLocationEnabled: _locationReady,
             onMapCreated: (controller) {
               if (!_mapController.isCompleted) {
                 _mapController.complete(controller);
+              }
+            },
+            onCameraIdle: () {
+              if (_mapLoading) {
+                Future.delayed(const Duration(milliseconds: 700), () {
+                  if (!mounted) return;
+                  setState(() {
+                    _mapLoading = false;
+                  });
+                  _hideLoadingDialog();
+                });
               }
             },
           ),

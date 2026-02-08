@@ -33,6 +33,7 @@ class CircularIconButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(size / 2),
       ),
       color: bg,
+      shadowColor: Colors.black.withOpacity(0.2),
       child: InkWell(
         borderRadius: BorderRadius.circular(size / 2),
         onTap: onTap,

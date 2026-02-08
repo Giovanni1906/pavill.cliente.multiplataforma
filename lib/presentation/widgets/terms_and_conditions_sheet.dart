@@ -3,6 +3,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../core/constants/app_constants.dart';
 import '../../core/theme/app_theme_colors.dart';
+import 'loading_dialog.dart';
 
 class TermsAndConditionsSheet extends StatefulWidget {
   final String url;
@@ -110,23 +111,7 @@ class _TermsAndConditionsSheetState extends State<TermsAndConditionsSheet> {
                   color: Theme.of(context)
                       .scaffoldBackgroundColor
                       .withOpacity(0.7),
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'assets/animations/loading.gif',
-                          width: 64,
-                          height: 64,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Cargando...',
-                          style: TextStyle(color: colors.text),
-                        ),
-                      ],
-                    ),
-                  ),
+                  child: LoadingDialog(message: 'Cargando...'),
                 ),
             ],
           ),

@@ -66,7 +66,7 @@ class ConfirmScreen extends StatelessWidget {
                             Text(
                               'S/ XX.XX',
                               style: TextStyle(
-                                color: colors.primary,
+                                color: colors.text,
                                 fontWeight: FontWeight.w800,
                                 fontSize: 28,
                               ),
@@ -74,7 +74,7 @@ class ConfirmScreen extends StatelessWidget {
                             const SizedBox(height: 16),
                             _LocationRow(
                               icon: Icons.circle,
-                              iconColor: colors.primary,
+                              iconColor: colors.icon,
                               label: 'Origen:',
                               value: 'Error (volver a marcar)',
                             ),

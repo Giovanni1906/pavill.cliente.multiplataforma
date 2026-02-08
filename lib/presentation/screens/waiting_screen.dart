@@ -9,7 +9,7 @@ import '../../core/theme/app_theme_colors.dart';
 import '../widgets/app_bottom_sheet.dart';
 import '../widgets/circular_icon_button.dart';
 import '../widgets/contact_action_button.dart';
-import '../widgets/map_view.dart';
+import '../widgets/loading_dialog.dart';
 import '../widgets/cancel_reason_dialog.dart';
 import '../widgets/driver_message_dialog.dart';
 import '../widgets/primary_button.dart';
@@ -28,13 +28,28 @@ class WaitingScreen extends StatefulWidget {
 class _WaitingScreenState extends State<WaitingScreen> {
   final Completer<GoogleMapController> _mapController = Completer();
   bool _locationReady = false;
+  bool _mapLoading = true;
+  bool _loadingDialogVisible = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _requestLocation();
+      _showLoadingDialog();
     });
+  }
+
+  void _showLoadingDialog() {
+    if (_loadingDialogVisible || !mounted) return;
+    _loadingDialogVisible = true;
+    LoadingDialog.show(context, message: 'Cargando mapa...');
+  }
+
+  void _hideLoadingDialog() {
+    if (!_loadingDialogVisible || !mounted) return;
+    _loadingDialogVisible = false;
+    LoadingDialog.hide(context);
   }
 
   Future<void> _requestLocation() async {
@@ -82,21 +97,43 @@ class _WaitingScreenState extends State<WaitingScreen> {
   }
 
   @override
+  void dispose() {
+    if (_loadingDialogVisible) {
+      LoadingDialog.hide(context);
+      _loadingDialogVisible = false;
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<AppThemeColors>()!;
 
     return Scaffold(
       body: Stack(
         children: [
-          MapView(
+          GoogleMap(
             initialCameraPosition: const CameraPosition(
               target: LatLng(-12.0464, -77.0428),
               zoom: 14,
             ),
+            myLocationButtonEnabled: false,
+            zoomControlsEnabled: false,
             myLocationEnabled: _locationReady,
             onMapCreated: (controller) {
               if (!_mapController.isCompleted) {
                 _mapController.complete(controller);
+              }
+            },
+            onCameraIdle: () {
+              if (_mapLoading) {
+                Future.delayed(const Duration(milliseconds: 700), () {
+                  if (!mounted) return;
+                  setState(() {
+                    _mapLoading = false;
+                  });
+                  _hideLoadingDialog();
+                });
               }
             },
           ),
@@ -113,9 +150,9 @@ class _WaitingScreenState extends State<WaitingScreen> {
             ),
           ),
           AppBottomSheet(
-            initialChildSize: 0.42,
-            minChildSize: 0.32,
-            maxChildSize: 0.65,
+            initialChildSize: 0.57,
+            minChildSize: 0.07,
+            maxChildSize: 0.6,
             autoSize: false,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -167,26 +204,26 @@ class _WaitingScreenState extends State<WaitingScreen> {
                 const RatingStars(rating: 4),
                 const SizedBox(height: 6),
                 Text(
-                  "Juan Perez",
+                  "Conductor de Pavill",
                   style: TextStyle(
-                    color: colors.primary,
+                    color: colors.text,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  "X-01",
+                  "No registrado",
                   style: TextStyle(
-                    color: colors.primary,
+                    color: colors.text,
                     fontSize: 13,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "Modelo: Toyota Prius | Placa: ABC-123",
+                  "Modelo: No registrado | Placa: No registrado",
                   style: TextStyle(
-                    color: colors.primary,
+                    color: colors.text,
                     fontSize: 12,
                   ),
                 ),

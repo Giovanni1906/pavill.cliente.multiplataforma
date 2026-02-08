@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_theme_colors.dart';
 import '../widgets/app_bottom_sheet.dart';
+import '../widgets/back_exit_handler.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/section_title.dart';
 import 'waiting_screen.dart';
@@ -81,52 +82,55 @@ class _SearchingScreenState extends State<SearchingScreen> {
       ],
     );
 
-    return Scaffold(
-      backgroundColor: colors.secondary,
-      body: Stack(
-        children: [
-          Container(color: colors.secondary),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Theme(
-              data: sheetTheme,
-              child: AppBottomSheet(
-                draggable: false,
-                padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SizedBox(height: 4),
-                    const SectionTitle(
-                      text: 'Estamos buscando un pavill cerca a tu',
-                      secondLine: 'ubicacion',
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      _formatElapsed(_elapsedSeconds),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 22,
+    return BackExitHandler(
+      blockBack: true,
+      child: Scaffold(
+        backgroundColor: colors.secondary,
+        body: Stack(
+          children: [
+            Container(color: colors.secondary),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Theme(
+                data: sheetTheme,
+                child: AppBottomSheet(
+                  draggable: false,
+                  padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 4),
+                      const SectionTitle(
+                        text: 'Estamos buscando un pavill cerca a tu',
+                        secondLine: 'ubicacion',
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    PrimaryButton(
-                      text: 'Cancelar',
-                      variant: ButtonVariant.secondary,
-                      onPressed: () {
-                        _stopTimer();
-                        Navigator.of(context).maybePop();
-                      },
-                    ),
-                  ],
+                      const SizedBox(height: 6),
+                      Text(
+                        _formatElapsed(_elapsedSeconds),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 22,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      PrimaryButton(
+                        text: 'Cancelar',
+                        variant: ButtonVariant.secondary,
+                        onPressed: () {
+                          _stopTimer();
+                          Navigator.of(context).maybePop();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

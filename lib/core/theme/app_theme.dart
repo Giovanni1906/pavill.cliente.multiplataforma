@@ -11,6 +11,7 @@ class AppTheme {
       extensions: const [
         AppThemeColors(
           primary: AppColors.primary,
+          icon: AppColors.icon,
           secondary: AppColors.secondary,
           text: AppColors.text,
           background: AppColors.background,
@@ -43,6 +44,7 @@ class AppTheme {
       extensions: const [
         AppThemeColors(
           primary: AppColors.darkPrimary,
+          icon: AppColors.darkIcon,
           secondary: AppColors.darkSecondary,
           text: AppColors.darkText,
           background: AppColors.darkBackground,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 @immutable
 class AppThemeColors extends ThemeExtension<AppThemeColors> {
   final Color primary;
+  final Color icon;
   final Color secondary;
   final Color text;
   final Color background;
@@ -14,6 +15,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
 
   const AppThemeColors({
     required this.primary,
+    required this.icon,
     required this.secondary,
     required this.text,
     required this.background,
@@ -27,6 +29,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
   @override
   AppThemeColors copyWith({
     Color? primary,
+    Color? icon,
     Color? secondary,
     Color? text,
     Color? background,
@@ -38,6 +41,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
   }) {
     return AppThemeColors(
       primary: primary ?? this.primary,
+      icon: icon ?? this.icon,
       secondary: secondary ?? this.secondary,
       text: text ?? this.text,
       background: background ?? this.background,
@@ -54,6 +58,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     if (other is! AppThemeColors) return this;
     return AppThemeColors(
       primary: Color.lerp(primary, other.primary, t)!,
+      icon: Color.lerp(icon, other.icon, t)!,
       secondary: Color.lerp(secondary, other.secondary, t)!,
       text: Color.lerp(text, other.text, t)!,
       background: Color.lerp(background, other.background, t)!,

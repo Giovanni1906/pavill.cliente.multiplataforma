@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_theme_colors.dart';
+import '../../core/theme/app_colors.dart';
 import 'circular_icon_button.dart';
 
 class ContactActionButton extends StatelessWidget {
@@ -25,8 +26,8 @@ class ContactActionButton extends StatelessWidget {
       size: size,
       iconSize: size * 0.5,
       elevation: 0,
-      backgroundColor: colors.slowPrimary,
-      iconColor: colors.primary,
+        backgroundColor: colors.glow,
+        iconColor: AppColors.primary,
     );
   }
 }

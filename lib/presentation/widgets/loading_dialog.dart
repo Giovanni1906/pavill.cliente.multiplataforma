@@ -30,10 +30,26 @@ class LoadingDialog extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(
-                'assets/animations/loading.gif',
-                width: 80,
-                height: 80,
+              Container(
+                padding: EdgeInsets.zero,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.85),
+                      blurRadius: 0, // difuminación de la sombra
+                      spreadRadius: -2,
+                    ),
+                  ],
+                ),
+                child: Image.asset(
+                  'assets/animations/loading.gif',
+                  width: 80,
+                  height: 80,
+                ),
               ),
               if (message != null) ...[
                 const SizedBox(height: 16),
