@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../../core/constants/app_constants.dart';
+import '../../core/config/api_endpoints.dart';
 
 class LoginViewModel extends ChangeNotifier {
   bool isLoading = false;
@@ -12,7 +12,7 @@ class LoginViewModel extends ChangeNotifier {
     notifyListeners();
 
     final response = await http.post(
-      Uri.parse(AppConstants.apiLogin),
+      Uri.parse(ApiEndpoints.login),
       body: {
         "Accion": "AccederConductor",
         "ConductorNumeroDocumento": dni,
