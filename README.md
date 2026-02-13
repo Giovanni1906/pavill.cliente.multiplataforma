@@ -2,6 +2,11 @@
 
 Aplicación móvil Flutter para clientes de Radio Taxi Pavill. Permite solicitar viajes, ver el progreso en tiempo real con mapas, y comunicarse con conductores.
 
+## 📄 Desarrollado por 
+
+Jorge Jefferson Velásquez Valdivia | tech solutions
+- contacto: jeff-1906@outlook.com 
+
 ## 📋 Características
 
 - 🗺️ **Integración con Google Maps**: Visualización de ubicación y seguimiento de viajes
@@ -35,7 +40,7 @@ Aplicación móvil Flutter para clientes de Radio Taxi Pavill. Permite solicitar
 ### 1. Clonar el Repositorio
 
 ```bash
-git clone [URL_DEL_REPOSITORIO]
+git clone https://github.com/Giovanni1906/pavill.cliente.multiplataforma.git
 cd pavill.cliente.multiplataforma
 ```
 
@@ -219,11 +224,3 @@ Estos archivos ya están incluidos en `.gitignore`.
 ### "Error al compilar en Android"
 - Verifica que `key.properties` exista y tenga las rutas correctas
 - Asegúrate de que el archivo keystore exista en la ubicación especificada
-
-## 📄 Licencia
-
-[ESPECIFICAR LICENCIA]
-
-## 👥 Contacto
-
-[INFORMACIÓN DE CONTACTO]
