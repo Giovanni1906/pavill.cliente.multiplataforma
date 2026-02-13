@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../core/services/location_permission_helper.dart';
+import '../../core/services/session_storage.dart';
 import '../widgets/app_bottom_sheet.dart';
 import '../widgets/circular_icon_button.dart';
 import '../widgets/general_input_field.dart';
@@ -14,9 +15,9 @@ import '../widgets/location_input_sheet.dart';
 import '../widgets/loading_dialog.dart';
 import '../widgets/primary_button.dart';
 import '../widgets/section_title.dart';
-import 'login_screen.dart';
 import 'profile_screen.dart';
 import 'confirm_screen.dart';
+import '../../core/utils/navigation/app_menu_navigation.dart';
 
 class MapScreen extends StatefulWidget {
   final IconData actionIcon;
@@ -140,30 +141,11 @@ class _MapScreenState extends State<MapScreen> {
         key: _scaffoldKey,
         drawer: AppMenuDrawer(
           currentItem: AppMenuItem.home,
-          onItemTap: (item) {
-            Navigator.of(context).pop();
-            switch (item) {
-              case AppMenuItem.home:
-                break;
-              case AppMenuItem.editProfile:
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const ProfileScreen(),
-                  ),
-                );
-                break;
-              case AppMenuItem.favoriteAddresses:
-                break;
-              case AppMenuItem.logout:
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (_) => const LoginScreen(),
-                  ),
-                  (route) => false,
-                );
-                break;
-            }
-          },
+          onItemTap: (item) => handleAppMenuTap(
+            context: context,
+            item: item,
+            currentItem: AppMenuItem.home,
+          ),
         ),
         body: Stack(
           children: [
@@ -221,7 +203,16 @@ class _MapScreenState extends State<MapScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SectionTitle(text: "Hola, ¿A dónde vamos?"),
+                  FutureBuilder<String?>(
+                    future: SessionStorage().getClienteNombre(),
+                    builder: (context, snapshot) {
+                      final nombre = snapshot.data;
+                      final saludo = nombre?.isNotEmpty == true
+                          ? "Hola $nombre"
+                          : "Hola";
+                      return SectionTitle(text: "$saludo, ¿A dónde vamos?");
+                    },
+                  ),
                   const SizedBox(height: 24),
                   GestureDetector(
                     onTap: () => _openLocationSheet(isOrigin: true),

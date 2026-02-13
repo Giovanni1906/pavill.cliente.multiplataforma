@@ -3,7 +3,7 @@ class ApiEndpoints {
   static const String legacyBaseUrl =
       "http://rtpavillv3.ddns.net:8014/apptaxipavill-cliente-v300/webservice";
   static const String apiBaseUrl =
-      "https://pavill.lat:1000/api/v1";
+      "http://pavill.lat:1000/api/v1";
 
   // Dominios
   static const String clienteBase = "$apiBaseUrl/cliente";

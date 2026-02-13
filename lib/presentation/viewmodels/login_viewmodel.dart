@@ -1,32 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../../core/config/api_endpoints.dart';
+
+import '../../core/models/cliente/cliente_acceder_request.dart';
+import '../../core/models/cliente/cliente_acceder_response.dart';
+import '../../core/constants/responses/cliente_responses.dart';
+import '../../core/repositories/cliente/cliente_auth_repository.dart';
+import '../../core/services/session_storage.dart';
 
 class LoginViewModel extends ChangeNotifier {
+    LoginViewModel({
+      ClienteAuthRepository? repository,
+      SessionStorage? sessionStorage,
+    })  : _repository = repository ?? ClienteAuthRepository(),
+          _sessionStorage = sessionStorage ?? SessionStorage();
+
+    final ClienteAuthRepository _repository;
+    final SessionStorage _sessionStorage;
+
   bool isLoading = false;
   String? errorMessage;
+  ClienteAccederResponse? clienteAccederResponse;
 
-  Future<void> login(String dni, String password) async {
+  Future<void> login(String email, String password) async {
     isLoading = true;
     notifyListeners();
 
-    final response = await http.post(
-      Uri.parse(ApiEndpoints.login),
-      body: {
-        "Accion": "AccederConductor",
-        "ConductorNumeroDocumento": dni,
-        "ConductorContrasena": password,
-      },
-    );
+    try {
+      // ignore: avoid_print
+      debugPrint("[login] llamando repository");
+      final response = await _repository.acceder(
+        ClienteAccederRequest(
+          clienteEmail: email,
+          clienteContrasena: password,
+        ),
+      );
 
-    final data = jsonDecode(response.body);
+      clienteAccederResponse = response;
+      // ignore: avoid_print
+      debugPrint("[login] respuesta=${response.respuesta}");
 
-    if (data == "C001") {
-      // TODO: guardar sesión
-      errorMessage = null;
-    } else {
-      errorMessage = "Credenciales incorrectas";
+      switch (response.respuesta) {
+        case ApiResponseCodes.clienteAccederOk:
+          errorMessage = null;
+          await _sessionStorage.saveClienteSession(response);
+          break;
+        case ApiResponseCodes.clienteAccederCredencialesInvalidas:
+          errorMessage = "Credenciales incorrectas";
+          break;
+        case ApiResponseCodes.clienteAccederBloqueado:
+          errorMessage = "Cliente bloqueado o desactivado";
+          break;
+        default:
+          errorMessage = response.mensaje?.isNotEmpty == true
+              ? response.mensaje
+              : "Error desconocido";
+      }
+    } catch (error, stackTrace) {
+      // ignore: avoid_print
+      debugPrint("[login] error al iniciar sesión: $error");
+      // ignore: avoid_print
+      debugPrint("[login] stack: $stackTrace");
+      errorMessage = "No se pudo iniciar sesión";
     }
 
     isLoading = false;
